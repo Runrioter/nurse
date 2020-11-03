@@ -12,7 +12,7 @@ Build sources into binary products
 
 Build and run an executable product
 
-`swift run`
+`swift run nurse -q beijing`
 
 ### Test
 

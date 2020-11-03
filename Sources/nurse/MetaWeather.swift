@@ -1,9 +1,6 @@
 //
 //  MetaWeather.swift
 //  
-//
-//  Created by SwearWang on 2020/10/31.
-//
 
 import Foundation
 import Combine
@@ -21,7 +18,7 @@ struct MetaWeather {
 
             URLSession.shared.dataTask(with: url) { (data, urlResponse, error) in
 
-                guard error == nil, urlResponse != nil, data != nil else { return }
+                guard error == nil else { return }
                 
                 if let httpURLResponse = urlResponse as? HTTPURLResponse,
                    let data = data {
