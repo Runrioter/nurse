@@ -16,7 +16,7 @@ struct MetaWeather {
         return Future { promise in
 
             var locations = [Location]()
-            // should encode url but just for just here
+            // should encode url but it's unnecessary here
             let url = URL(string: "https://www.metaweather.com/api/location/search/?query=\(string)")!
 
             URLSession.shared.dataTask(with: url) { (data, urlResponse, error) in
@@ -25,9 +25,12 @@ struct MetaWeather {
                 
                 if let httpURLResponse = urlResponse as? HTTPURLResponse,
                    let data = data {
-                    httpURLResponse.allHeaderFields.forEach { (key, _) in
-                        print("\(key): \(httpURLResponse.value(forHTTPHeaderField: key as! String)!)")
+                    
+                    // output response headers for debugging
+                    httpURLResponse.allHeaderFields.forEach { (key, value) in
+                        print("\(key): \(value)")
                     }
+
                     let decoder = JSONDecoder()
                     locations = (try? decoder.decode([Location].self, from: data)) ?? []
                     promise(.success(locations))

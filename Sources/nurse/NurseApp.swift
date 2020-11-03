@@ -15,24 +15,25 @@ struct NurseApp {
         let semaphore = DispatchSemaphore(value: 0)
         
         MetaWeather.location(by: "san").sink { locations in
+
             print("\n=== Locations ===")
-            locations.forEach { location in
-                print(locationString(location: location))
-            }
+            locations.forEach { outputLocation($0) }
             print("=== Total: \(locations.count) ===\n")
+            
             semaphore.signal()
+
         }.store(in: &cancellable)
         
         semaphore.wait()
     }
 }
 
-func locationString(location: Location) -> String {
-    return """
-            Title: \(location.title)
-            Location Type: \(location.locationType)
-            Lattlong: \(location.lattLong)
-            Woeid: \(location.woeid)
-            Distance: \(location.distance ?? 0)
-            """
+func outputLocation(_ location: Location) {
+    print("""
+    Title: \(location.title)
+    Location Type: \(location.locationType)
+    Lattlong: \(location.lattLong)
+    Woeid: \(location.woeid)
+    Distance: \(location.distance ?? 0)
+    """)
 }
