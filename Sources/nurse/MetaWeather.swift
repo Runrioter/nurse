@@ -11,8 +11,6 @@ struct MetaWeather {
     static func location(by string: String) -> Future<[Location], Never> {
 
         return Future { promise in
-
-            var locations = [Location]()
             // should encode url but it's unnecessary here
             let url = URL(string: "https://www.metaweather.com/api/location/search/?query=\(string)")!
 
@@ -29,7 +27,7 @@ struct MetaWeather {
                     }
 
                     let decoder = JSONDecoder()
-                    locations = (try? decoder.decode([Location].self, from: data)) ?? []
+                    let locations = (try? decoder.decode([Location].self, from: data)) ?? []
                     promise(.success(locations))
                 }
 

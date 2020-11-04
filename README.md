@@ -2,20 +2,41 @@
 
 A Toy for learning Swift programming language.
 
+
+## Usage
+
+```shell
+nurse -h
+```
+
+### Search locations
+
+```shell
+nurse location -q beijing
+```
+
+## Build from source code
+
 ### Build
 
 Build sources into binary products
 
-`swift build`
+```shell
+swift build
+```
 
 ### Run
 
 Build and run an executable product
 
-`swift run nurse -q beijing`
+```shell
+swift run nurse location -q <location text>
+```
 
 ### Test
 
 Build and run tests
 
-`swift test`
+```shell
+swift test
+```

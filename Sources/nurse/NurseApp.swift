@@ -7,39 +7,17 @@ import Combine
 import ArgumentParser
 
 @available(OSX 10.15, *)
-struct Nurse: ParsableCommand {
+struct NurseApp: ParsableCommand {
     
-    static let configuration = CommandConfiguration(abstract: "🏥 Nurse\n  A Toy for learning Swift programming language.")
-    
-    @Option(name: [.short], help: "Location to search for.")
-    var query: String
-    
-    mutating func run() throws {
-        
-        var cancellable = Set<AnyCancellable>()
-        
-        let semaphore = DispatchSemaphore(value: 0)
-        
-        MetaWeather.location(by: query).sink { locations in
+    static let configuration = CommandConfiguration(
+        commandName: "nurse",
+        abstract: """
+        🏥 Nurse
 
-            print("\n=== Locations ===")
-            locations.forEach { outputLocation($0) }
-            print("=== Total: \(locations.count) ===\n")
-            
-            semaphore.signal()
+          A Toy for learning Swift programming language.
 
-        }.store(in: &cancellable)
-        
-        semaphore.wait()
-    }
-}
+        """,
+        subcommands: [ LocationSubcommand.self ]
+    )
 
-func outputLocation(_ location: Location) {
-    print("""
-    Title: \(location.title)
-    Location Type: \(location.locationType)
-    Lattlong: \(location.lattLong)
-    Woeid: \(location.woeid)
-    Distance: \(location.distance ?? 0)
-    """)
 }
