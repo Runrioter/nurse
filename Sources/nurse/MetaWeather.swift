@@ -8,12 +8,12 @@ import Combine
 @available(OSX 10.15, *)
 struct MetaWeather {
     
-    static func location(by string: String) -> Future<[Location], Never> {
+    static func location(by location: String) -> Future<[Location], Never> {
 
         return Future { promise in
-            // should encode url but it's unnecessary here
-            let url = URL(string: "https://www.metaweather.com/api/location/search/?query=\(string)")!
 
+            let url = makeLocationURL(query: location)!
+            
             URLSession.shared.dataTask(with: url) { (data, urlResponse, error) in
 
                 guard error == nil else { return }
@@ -34,6 +34,13 @@ struct MetaWeather {
             }.resume()
         }
     }
+    
+    private static func makeLocationURL(query: String) -> URL? {
+        var urlComponents = URLComponents(string: "https://www.metaweather.com/api/location/search/")!
+        urlComponents.queryItems = [ URLQueryItem(name: "query", value: query) ]
+        return urlComponents.url
+    }
+
 }
 
 struct Location: Codable {
