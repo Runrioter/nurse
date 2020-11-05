@@ -52,7 +52,7 @@ struct Location: Codable {
     var locationType: String
     
     /// Comma separated lattitude and longitude e.g. "36.96,-122.02".
-    var lattLong: String
+    var lattLong: LattLong
     
     /// Where On Earth ID
     var woeid: Int
@@ -68,4 +68,28 @@ struct Location: Codable {
         case distance
     }
     
+    struct LattLong: Codable, CustomStringConvertible {
+        
+        private var lattitude: Double
+        
+        private var longitude: Double
+        
+        var description: String {
+            return "<\(lattitude),\(longitude)>"
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let lattLong = try container.decode(String.self)
+            let lattAndLongSlice = lattLong.split(separator: ",")
+            lattitude = Double(lattAndLongSlice[0])!
+            longitude = Double(lattAndLongSlice[1])!
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode("\(lattitude),\(longitude)")
+        }
+        
+    }
 }
