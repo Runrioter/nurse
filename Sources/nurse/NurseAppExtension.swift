@@ -28,16 +28,27 @@ extension NurseApp {
             
             let semaphore = DispatchSemaphore(value: 0)
             
-            MetaWeather.location(by: query).sink { locations in
+            MetaWeather.location(by: query).sink(receiveCompletion: { completion in
+
+                switch completion {
+                case .finished:
+                    // ignore
+                break
+                case .failure(let error):
+                    print("received the error: ", error.localizedDescription)
+                }
+                
+                semaphore.signal()
+                
+            }, receiveValue: { locations in
 
                 print("\n=== Locations ===")
                 locations.forEach { outputLocation($0) }
                 print("=== Total: \(locations.count) ===\n")
-                
-                semaphore.signal()
 
-            }.store(in: &cancellable)
-            
+            }).store(in: &cancellable)
+
+
             semaphore.wait()
         }
         

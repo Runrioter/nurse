@@ -8,15 +8,17 @@ import Combine
 @available(OSX 10.15, *)
 struct MetaWeather {
     
-    static func location(by location: String) -> Future<[Location], Never> {
+    static func location(by location: String) -> Future<[Location], Error> {
 
         return Future { promise in
 
-            let url = makeLocationURL(query: location)!
+            let url = makeLocationURL(query: location)
             
             URLSession.shared.dataTask(with: url) { (data, urlResponse, error) in
 
-                guard error == nil else { return }
+                if let error = error {
+                    return promise(.failure(error))
+                }
                 
                 if let httpURLResponse = urlResponse as? HTTPURLResponse,
                    let data = data {
@@ -26,19 +28,23 @@ struct MetaWeather {
                         print("\(key): \(value)")
                     }
 
-                    let decoder = JSONDecoder()
-                    let locations = (try? decoder.decode([Location].self, from: data)) ?? []
-                    promise(.success(locations))
+                    do {
+                        let decoder = JSONDecoder()
+                        let locations = try decoder.decode([Location].self, from: data)
+                        promise(.success(locations))
+                    } catch {
+                        promise(.failure(error))
+                    }
                 }
 
             }.resume()
         }
     }
     
-    private static func makeLocationURL(query: String) -> URL? {
+    private static func makeLocationURL(query: String) -> URL {
         var urlComponents = URLComponents(string: "https://www.metaweather.com/api/location/search/")!
         urlComponents.queryItems = [ URLQueryItem(name: "query", value: query) ]
-        return urlComponents.url
+        return urlComponents.url!
     }
 
 }
