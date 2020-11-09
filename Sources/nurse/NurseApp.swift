@@ -15,7 +15,7 @@ struct NurseApp: ParsableCommand {
               A Toy for learning Swift programming language.
 
             """,
-        subcommands: [LocationSubcommand.self]
+        subcommands: [LocationSubcommand.self, WeatherSubcommand.self]
     )
 
 }
