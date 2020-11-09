@@ -22,7 +22,15 @@ nurse location -q beijing
 Build sources into binary products
 
 ```shell
-swift build
+make build
+```
+
+### Format
+
+Lint sources
+
+```shell
+make format
 ```
 
 ### Run
@@ -38,5 +46,5 @@ swift run nurse location -q <location text>
 Build and run tests
 
 ```shell
-swift test
+make test
 ```
