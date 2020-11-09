@@ -1,5 +1,11 @@
+build:
+	swift build
+
+test:
+	swift test
+
 format:
-	swift-format format -i -r Sources/nurse
+	swift-format format -i -r Sources Tests
 
 
-.PHONY: format
+.PHONY: format build test

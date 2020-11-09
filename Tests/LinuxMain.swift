@@ -1,5 +1,4 @@
 import XCTest
-
 import nurseTests
 
 var tests = [XCTestCaseEntry]()
