@@ -1,11 +1,11 @@
 //
-//  NurseApp.swift
+//  Nurse.swift
 //
 
 import ArgumentParser
 
 @available(OSX 10.15, *)
-struct NurseApp: ParsableCommand {
+struct Nurse: ParsableCommand {
 
     static let configuration = CommandConfiguration(
         commandName: "nurse",
