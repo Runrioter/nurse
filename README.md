@@ -5,14 +5,23 @@ A Toy for learning Swift programming language.
 
 ## Usage
 
-```shell
-nurse -h
 ```
+$ nurse -h
+OVERVIEW: 🏥 Nurse
 
-### Search locations
+  A Toy for learning Swift programming language.
 
-```shell
-nurse location -q beijing
+
+USAGE: nurse <subcommand>
+
+OPTIONS:
+  -h, --help              Show help information.
+
+SUBCOMMANDS:
+  location                Search locations using MetaWeather API
+  weather                 Search weather using MetaWeather API
+
+  See 'nurse help <subcommand>' for detailed help.
 ```
 
 ## Build from source code
