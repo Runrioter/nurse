@@ -18,7 +18,7 @@ extension Nurse {
 
         @Option(
             name: [.short],
-            help: ArgumentHelp("Location to search for.", valueName: "location text")
+            help: ArgumentHelp("Location. e.g., beijing", valueName: "location text")
         )
         var query: String
 

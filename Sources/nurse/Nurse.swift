@@ -5,6 +5,7 @@
 import ArgumentParser
 
 @available(OSX 10.15, *)
+@main
 struct Nurse: ParsableCommand {
 
     static let configuration = CommandConfiguration(
@@ -15,7 +16,11 @@ struct Nurse: ParsableCommand {
               A Toy for learning Swift programming language.
 
             """,
-        subcommands: [LocationSubcommand.self, WeatherSubcommand.self]
+        subcommands: [
+            LocationSubcommand.self,
+            WeatherSubcommand.self,
+            OperationSubcommand.self
+        ]
     )
 
 }
