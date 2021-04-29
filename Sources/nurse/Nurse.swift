@@ -8,19 +8,19 @@ import ArgumentParser
 @main
 struct Nurse: ParsableCommand {
 
-    static let configuration = CommandConfiguration(
-        commandName: "nurse",
-        abstract: """
-            🏥 Nurse
+  static let configuration = CommandConfiguration(
+    commandName: "nurse",
+    abstract: """
+      🏥 Nurse
 
-              A Toy for learning Swift programming language.
+        A Toy for learning Swift programming language.
 
-            """,
-        subcommands: [
-            LocationSubcommand.self,
-            WeatherSubcommand.self,
-            OperationSubcommand.self
-        ]
-    )
+      """,
+    subcommands: [
+      LocationSubcommand.self,
+      WeatherSubcommand.self,
+      OperationSubcommand.self,
+    ]
+  )
 
 }

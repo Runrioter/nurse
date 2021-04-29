@@ -9,63 +9,63 @@ import Foundation
 @available(OSX 10.15, *)
 extension Nurse {
 
-    struct LocationSubcommand: ParsableCommand {
+  struct LocationSubcommand: ParsableCommand {
 
-        static let configuration = CommandConfiguration(
-            commandName: "location",
-            abstract: "Search locations using MetaWeather API"
-        )
+    static let configuration = CommandConfiguration(
+      commandName: "location",
+      abstract: "Search locations using MetaWeather API"
+    )
 
-        @Option(
-            name: [.short],
-            help: ArgumentHelp("Location. e.g., beijing", valueName: "location text")
-        )
-        var query: String
+    @Option(
+      name: [.short],
+      help: ArgumentHelp("Location. e.g., beijing", valueName: "location text")
+    )
+    var query: String
 
-        mutating func run() throws {
+    mutating func run() throws {
 
-            var cancellable = Set<AnyCancellable>()
+      var cancellable = Set<AnyCancellable>()
 
-            let semaphore = DispatchSemaphore(value: 0)
+      let semaphore = DispatchSemaphore(value: 0)
 
-            MetaWeather.location(by: query).sink(
-                receiveCompletion: { completion in
+      MetaWeather.location(by: query).sink(
+        receiveCompletion: { completion in
 
-                    switch completion {
-                    case .finished:
-                        // ignore
-                        break
-                    case .failure(let error):
-                        print("received the error: ", error.localizedDescription)
-                    }
+          switch completion {
+          case .finished:
+            // ignore
+            break
+          case .failure(let error):
+            print("received the error: ", error.localizedDescription)
+          }
 
-                    semaphore.signal()
+          semaphore.signal()
 
-                },
-                receiveValue: { locations in
+        },
+        receiveValue: { locations in
 
-                    print("\n=== Locations ===")
-                    locations.forEach { outputLocation($0) }
-                    print("=== Total: \(locations.count) ===\n")
+          print("\n=== Locations ===")
+          locations.forEach { outputLocation($0) }
+          print("=== Total: \(locations.count) ===\n")
 
-                }
-            ).store(in: &cancellable)
-
-            semaphore.wait()
         }
+      ).store(in: &cancellable)
 
+      semaphore.wait()
     }
+
+  }
 
 }
 
 func outputLocation(_ location: Location) {
 
-    print(
-        """
-        Title: \(location.title)
-        Location Type: \(location.locationType)
-        Lattlong: \(location.lattLong)
-        Woeid: \(location.woeid)
-        Distance: \(location.distance ?? 0)
-        """)
+  print(
+    """
+    Title: \(location.title)
+    Location Type: \(location.locationType)
+    Lattlong: \(location.lattLong)
+    Woeid: \(location.woeid)
+    Distance: \(location.distance ?? 0)
+    """)
 }
